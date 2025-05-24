@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  con_db:
+    image: mysql:8.0
+    container_name: con_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: bospisang
+      MYSQL_USER: bospisang
+      MYSQL_PASSWORD: bospisang
+    volumes:
+      - ./volumes/database:/var/lib/mysql
+      - ./volumes/initdb:/docker-entrypoint-initdb.d/
+  con_phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: con_pma
+    restart: always
+    links:
+      - con_db
+    environment:
+      PMA_HOST: con_db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    ports:
+      - 4747:80
+  con_frontend:
+    image: gorengan/cioke:latest
+    container_name: con_webserver
+    ports:
+      - "8081:80"
+    environment:
+      DB_HOST: con_db
+      DB_USER: bospisang
+      DB_PASS: bospisang
+      DB_NAME: csirt
+    volumes:
+      - ./volumes/webserver:/var/www/html/

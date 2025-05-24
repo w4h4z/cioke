@@ -11,8 +11,8 @@ services:
       MYSQL_PASSWORD: bospisang
       MYSQL_DATABASE: csirt
     volumes:
-      - ./volumes/database:/var/lib/mysql
-      - ./volumes/initdb:/docker-entrypoint-initdb.d  # Changed this line to point directly to initdb
+      - ./database:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d  # Changed this line to point to your sql directory
     command: --default-authentication-plugin=mysql_native_password
 
   con_phpmyadmin:

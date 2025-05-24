@@ -12,8 +12,16 @@ services:
       MYSQL_DATABASE: csirt
     volumes:
       - ./database:/var/lib/mysql
-      - ./sql:/docker-entrypoint-initdb.d  # Changed this line to point to your sql directory
-    command: --default-authentication-plugin=mysql_native_password
+      - ./sql:/docker-entrypoint-initdb.d
+    command: 
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "bospisang", "-pbospisang"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   con_phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -27,6 +35,9 @@ services:
       PMA_ARBITRARY: 1
     ports:
       - 4747:80
+    depends_on:
+      con_db:
+        condition: service_healthy
 
   con_frontend:
     image: gorengan/cioke:latest
@@ -39,4 +50,5 @@ services:
       DB_PASS: bospisang
       DB_NAME: csirt
     depends_on:
-      - con_db
+      con_db:
+        condition: service_healthy

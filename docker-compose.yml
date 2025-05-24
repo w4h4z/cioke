@@ -12,7 +12,9 @@ services:
       MYSQL_DATABASE: csirt
     volumes:
       - ./volumes/database:/var/lib/mysql
-      - ./volumes/webserver/sql:/docker-entrypoint-initdb.d
+      - ./volumes/initdb:/docker-entrypoint-initdb.d  # Changed this line to point directly to initdb
+    command: --default-authentication-plugin=mysql_native_password
+
   con_phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: con_pma
@@ -25,6 +27,7 @@ services:
       PMA_ARBITRARY: 1
     ports:
       - 4747:80
+
   con_frontend:
     image: gorengan/cioke:latest
     container_name: con_webserver

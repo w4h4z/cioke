@@ -24,11 +24,16 @@ git clone https://github.com/w4h4z/cioke.git
 cd cioke
 ```
 
-2. Start the application:
+2. Empty the /database directory:
+```bash
+rm ./database/delete_this
+```
+
+3. Start the application:
 ```bash
 docker-compose up -d
 ```
 
-3. Access the applications:
+4. Access the applications:
 - Web Application: http://localhost:8081
 - phpMyAdmin: http://localhost:4747

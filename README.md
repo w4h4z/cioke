@@ -26,7 +26,7 @@ cd cioke
 
 2. Empty the /database directory:
 ```bash
-rm ./database/delete_this
+rm -rf database/*
 ```
 
 3. Start the application:

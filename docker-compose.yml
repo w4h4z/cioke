@@ -3,6 +3,7 @@ version: "3"
 services:
   con_db:
     image: mysql:8.0
+    platform: linux/amd64
     container_name: con_db
     restart: always
     environment:
@@ -25,6 +26,7 @@ services:
 
   con_phpmyadmin:
     image: phpmyadmin/phpmyadmin
+    platform: linux/amd64
     container_name: con_pma
     restart: always
     links:
@@ -41,6 +43,7 @@ services:
 
   con_frontend:
     image: gorengan/cioke:latest
+    platform: linux/amd64
     container_name: con_webserver
     ports:
       - "8081:80"
